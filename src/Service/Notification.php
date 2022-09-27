@@ -1,6 +1,8 @@
 <?php
 namespace  App\Service;
+
 use Twilio\Exceptions\ConfigurationException;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 class Notification {
     /**
@@ -26,14 +28,25 @@ class Notification {
         $this->client = new Client($this->accountSid, $this->authToken);
 
     }
-    public  function sendSms($twilioNumber){
-        $this->client->messages->create(
-        // Where to send a text message (your cell phone?)
-            '+15558675310',
-            array(
-                'from' => $twilioNumber,
-                'body' => 'I sent this message in under 10 minutes!'
-            )
-        );
+
+    /**
+     * @throws TwilioException
+     * @throws ConfigurationException
+     */
+    public  function sendSms(?string $twilioNumber): bool{
+        try {
+            $this->client->messages->create(
+                '+15558675310',
+                array(
+                    'from' => $twilioNumber,
+                    'body' => 'I sent this message in under 10 minutes!'
+                )
+            );
+            return  true;
+        }catch (ConfigurationException $e)
+        {
+            throw  new ConfigurationException("erreur");
+        }
+        return false;
   }
 }

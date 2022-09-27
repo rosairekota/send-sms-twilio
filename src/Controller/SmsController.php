@@ -17,10 +17,10 @@ class SmsController extends AbstractController
     public function index(Request  $request, Notification $notification): Response
     {
         $form = $this->createForm(SmsType::class);
-        $data =$form->handleRequest($request);
+        $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            dd($data);
-            //$notification->sendSms('868686');
+            dd($request->request->get('sms')['phone']);
+            $isSmsSended =$notification->sendSms($request->request->get('sms')['phone']);
         }
 
         return $this->render('sms/index.html.twig', [
