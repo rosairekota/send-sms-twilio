@@ -19,8 +19,10 @@ class SmsController extends AbstractController
         $form = $this->createForm(SmsType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            dd($request->request->get('sms')['phone']);
             $isSmsSended =$notification->sendSms($request->request->get('sms')['phone']);
+            if ($isSmsSended){
+                $this->addFlash('success','Sms envoyé avec succèes');
+            }
         }
 
         return $this->render('sms/index.html.twig', [

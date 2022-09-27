@@ -25,6 +25,8 @@ class Notification {
      */
     public  function __construct()
     {
+        $this->accountSid = 'AC987532106b6ad96581e95f63eef9f69c';
+        $this->authToken ='f4cb81376adc9256ac0df509e8d6f194';
         $this->client = new Client($this->accountSid, $this->authToken);
 
     }
@@ -36,7 +38,7 @@ class Notification {
     public  function sendSms(?string $twilioNumber): bool{
         try {
             $this->client->messages->create(
-                '+15558675310',
+                '+243855063200',
                 array(
                     'from' => $twilioNumber,
                     'body' => 'I sent this message in under 10 minutes!'
